@@ -1,13 +1,15 @@
 import { NextResponse } from 'next/server';
 import OpenAI from 'openai';
 
-if (!process.env.OPENAI_API_KEY) {
-  throw new Error('OPENAI_API_KEY is not configured in environment variables');
-}
+let openai: OpenAI;
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+try {
+  openai = new OpenAI({
+    apiKey: process.env.OPENAI_API_KEY || '',
+  });
+} catch (error) {
+  console.error('Failed to initialize OpenAI client:', error);
+}
 
 export async function POST(request: Request) {
   if (!process.env.OPENAI_API_KEY) {

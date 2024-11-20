@@ -12,7 +12,10 @@ try {
 }
 
 export async function POST(request: Request) {
+  console.log('API Key present:', !!process.env.OPENAI_API_KEY);
+  
   if (!process.env.OPENAI_API_KEY) {
+    console.error('OpenAI API key missing in environment');
     return NextResponse.json(
       { error: 'OpenAI API key not configured' },
       { status: 500 }
